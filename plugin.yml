@@ -1,0 +1,49 @@
+name: QuickCash
+version: 1.0.0
+main: NurAzliYT\QuickCash\Main
+api: 5.0.0
+author: NurAzliYT
+description: QuickCash To Add Economy Features
+commands:
+  mymoney:
+    description: Shows your money
+    usage: /mymoney
+  mydebt:
+    description: Shows your debt
+    usage: /mydebt
+  takedebt:
+    description: Borrows money from the plugin
+    usage: /takedebt <money>
+  returndebt:
+    description: Returns money to the plugin
+    usage: /returndebt <money>
+  topmoney:
+    description: Shows server's top money
+    usage: /topmoney <page>
+  moneysave:
+    description: Saves data to your hardware
+    usage: /moneysave
+    permission: quickcash.admin
+  moneyload:
+    description: Loads data from your hardware
+    usage: /moneyload
+    permission: quickcash.admin
+  setmoney:
+    description: Sets player's money
+    usage: /setmoney <player> <money>
+    permission: quickcash.admin
+  givemoney:
+    description: Gives money to player
+    usage: /givemoney <player> <money>
+    permission: quickcash.admin
+  takemoney:
+    description: Takes money from player
+    usage: /takemoney <player> <money>
+    permission: quickcash.admin
+  seemoney:
+    description: Shows player's money
+    usage: /seemoney <player>
+permissions:
+  quickcash.admin:
+    description: Allows administrative commands for QuickCash
+    default: op
