@@ -15,8 +15,7 @@ class Main extends PluginBase {
     /** @var PlayerData */
     private $playerData;
 
-    public function onEnable() {
-        $this->getLogger()->info("QuickCash has been enabled!");
+    public function onEnable(): void {
         @mkdir($this->getDataFolder());
         $this->playerData = new PlayerData($this);
 
@@ -24,7 +23,7 @@ class Main extends PluginBase {
     }
 
     public function onDisable() {
-        $this->getLogger()->info("QuickCash has been disabled.");
+        //Empty or Coming Soon
     }
 
     private function registerCommands() {
