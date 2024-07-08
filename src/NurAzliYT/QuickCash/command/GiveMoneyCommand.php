@@ -7,6 +7,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\plugin\PluginOwned;
 use pocketmine\plugin\PluginOwnedTrait;
 use NurAzliYT\QuickCash\Main;
+use NurAzliYT\QuickCash\PlayerData;
 
 class GiveMoneyCommand extends Command implements PluginOwned {
     use PluginOwnedTrait;
