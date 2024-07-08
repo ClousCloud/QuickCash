@@ -27,4 +27,10 @@ class GiveMoneyCommand extends Command implements PluginOwned {
             $player = $args[0];
             $amount = floatval($args[1]);
             $this->owningPlugin->getPlayerData()->addMoney($player, $amount);
-            $sender->
+            $sender->sendMessage("Gave $" . $amount . " to " . $player . ".");
+        } else {
+            $sender->sendMessage("You don't have permission to use this command.");
+        }
+        return true;
+    }
+}
