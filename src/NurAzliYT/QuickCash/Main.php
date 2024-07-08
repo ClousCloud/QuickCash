@@ -22,7 +22,7 @@ class Main extends PluginBase {
         $this->registerCommands();
     }
 
-    public function onDisable() {
+    public function onDisable():void {
         //Empty or Coming Soon
     }
 
