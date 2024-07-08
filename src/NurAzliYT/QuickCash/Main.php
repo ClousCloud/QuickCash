@@ -3,42 +3,38 @@
 namespace NurAzliYT\QuickCash;
 
 use pocketmine\plugin\PluginBase;
-use pocketmine\command\PluginCommand;
-use NurAzliYT\QuickCash\command\{
-    MyMoneyCommand, MyDebtCommand, TakeDebtCommand, ReturnDebtCommand, 
-    TopMoneyCommand, MoneySaveCommand, MoneyLoadCommand, SetMoneyCommand, 
-    GiveMoneyCommand, TakeMoneyCommand, SeeMoneyCommand
-};
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
+use NurAzliYT\QuickCash\command\MyMoneyCommand;
+use NurAzliYT\QuickCash\command\MyDebtCommand;
+use NurAzliYT\QuickCash\command\TakeDebtCommand;
+use NurAzliYT\QuickCash\command\ReturnDebtCommand;
+use NurAzliYT\QuickCash\command\TopMoneyCommand;
+use NurAzliYT\QuickCash\command\MoneySaveCommand;
+use NurAzliYT\QuickCash\command\MoneyLoadCommand;
+use NurAzliYT\QuickCash\command\SetMoneyCommand;
+use NurAzliYT\QuickCash\command\GiveMoneyCommand;
+use NurAzliYT\QuickCash\command\TakeMoneyCommand;
+use NurAzliYT\QuickCash\command\SeeMoneyCommand;
 
 class Main extends PluginBase {
-
-    /** @var PlayerData */
     private $playerData;
 
     public function onEnable(): void {
-        @mkdir($this->getDataFolder());
         $this->playerData = new PlayerData($this);
 
-        $this->registerCommands();
-    }
-
-    public function onDisable():void {
-        //Empty or Coming Soon
-    }
-
-    private function registerCommands() {
         $this->getServer()->getCommandMap()->registerAll("quickcash", [
-            new PluginCommand("mymoney", $this, new MyMoneyCommand($this)),
-            new PluginCommand("mydebt", $this, new MyDebtCommand($this)),
-            new PluginCommand("takedebt", $this, new TakeDebtCommand($this)),
-            new PluginCommand("returndebt", $this, new ReturnDebtCommand($this)),
-            new PluginCommand("topmoney", $this, new TopMoneyCommand($this)),
-            new PluginCommand("moneysave", $this, new MoneySaveCommand($this)),
-            new PluginCommand("moneyload", $this, new MoneyLoadCommand($this)),
-            new PluginCommand("setmoney", $this, new SetMoneyCommand($this)),
-            new PluginCommand("givemoney", $this, new GiveMoneyCommand($this)),
-            new PluginCommand("takemoney", $this, new TakeMoneyCommand($this)),
-            new PluginCommand("seemoney", $this, new SeeMoneyCommand($this)),
+            new MyMoneyCommand($this),
+            new MyDebtCommand($this),
+            new TakeDebtCommand($this),
+            new ReturnDebtCommand($this),
+            new TopMoneyCommand($this),
+            new MoneySaveCommand($this),
+            new MoneyLoadCommand($this),
+            new SetMoneyCommand($this),
+            new GiveMoneyCommand($this),
+            new TakeMoneyCommand($this),
+            new SeeMoneyCommand($this)
         ]);
     }
 
