@@ -11,7 +11,10 @@ use NurAzliYT\QuickCash\Main;
 class GiveMoneyCommand extends Command implements PluginOwned {
     use PluginOwnedTrait;
 
+    private Main $plugin;
+
     public function __construct(Main $plugin) {
+        $this->plugin = $plugin;
         $this->owningPlugin = $plugin;
         parent::__construct("givemoney", "Gives money to a player", "/givemoney <player> <money>");
         $this->setPermission("quickcash.admin");
@@ -26,7 +29,7 @@ class GiveMoneyCommand extends Command implements PluginOwned {
 
             $player = $args[0];
             $amount = floatval($args[1]);
-            $this->owningPlugin->addMoney($player, $amount);
+            $this->plugin->addMoney($player, $amount);
             $sender->sendMessage("Gave $" . $amount . " to " . $player . ".");
         } else {
             $sender->sendMessage("You don't have permission to use this command.");
