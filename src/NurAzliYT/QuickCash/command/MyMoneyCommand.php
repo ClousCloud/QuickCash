@@ -15,7 +15,7 @@ class MyMoneyCommand extends Command implements PluginOwned {
     private Main $plugin;
 
     public function __construct(Main $plugin) {
-        parent::__construct("mymoney", "Shows your money", "/mymoney");
+        parent::__construct("mymoney", "Shows your money", "/mymoney", ["mymoney"]);
         $this->setPermission("quickcash.command.mymoney");
         $this->plugin = $plugin;
     }
