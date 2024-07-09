@@ -14,20 +14,25 @@ class TopMoneyCommand extends Command implements PluginOwned {
     private Main $plugin;
 
     public function __construct(Main $plugin) {
-        $this->plugin = $plugin;
-        $this->owningPlugin = $plugin;
-        parent::__construct("topmoney", "Shows server's top money", "/topmoney <page>");
+        parent::__construct("topmoney", "Shows server's top money", "/topmoney");
         $this->setPermission("quickcash.command.topmoney");
+        $this->plugin = $plugin;
     }
 
-    public function execute(CommandSender $sender, string $label, array $args): bool {
-        $page = isset($args[0]) && is_numeric($args[0]) ? intval($args[0]) : 1;
-        $topMoney = $this->plugin->getTopMoney($page);
+    public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
+        if (!$this->testPermission($sender)) {
+            return false;
+        }
 
-        $sender->sendMessage("Top money players (Page $page):");
-        foreach ($topMoney as $player => $data) {
-            $sender->sendMessage($player . ": $" . $data['money']);
+        $topPlayers = $this->plugin->getPlayerData()->getTopPlayers();
+        $sender->sendMessage("Top Money Players:");
+        foreach ($topPlayers as $player => $money) {
+            $sender->sendMessage($player . ": $" . $money);
         }
         return true;
+    }
+
+    public function getOwningPlugin(): Main {
+        return $this->plugin;
     }
 }
