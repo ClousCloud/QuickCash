@@ -8,13 +8,23 @@ use pocketmine\command\CommandSender;
 use pocketmine\utils\Config;
 use pocketmine\player\Player;
 use pocketmine\command\CommandExecutor;
+use NurAzliYT\QuickCash\command\MyMoneyCommand;
+use NurAzliYT\QuickCash\command\MyDebtCommand;
+use NurAzliYT\QuickCash\command\TakeDebtCommand;
+use NurAzliYT\QuickCash\command\ReturnDebtCommand;
+use NurAzliYT\QuickCash\command\TopMoneyCommand;
+use NurAzliYT\QuickCash\command\MoneySaveCommand;
+use NurAzliYT\QuickCash\command\MoneyLoadCommand;
+use NurAzliYT\QuickCash\command\SetMoneyCommand;
+use NurAzliYT\QuickCash\command\GiveMoneyCommand;
+use NurAzliYT\QuickCash\command\TakeMoneyCommand;
+use NurAzliYT\QuickCash\command\SeeMoneyCommand;
 
 class Main extends PluginBase {
 
     private Config $playerData;
 
     public function onEnable(): void {
-        $this->getLogger()->info("QuickCash plugin enabled.");
         
         $this->playerData = new Config($this->getDataFolder() . "playerData.json", Config::JSON, []);
 
@@ -32,7 +42,6 @@ class Main extends PluginBase {
     }
 
     public function onDisable(): void {
-        $this->getLogger()->info("QuickCash plugin disabled.");
         $this->playerData->save();
     }
 
