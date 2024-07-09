@@ -12,9 +12,12 @@ use NurAzliYT\QuickCash\Main;
 class TakeDebtCommand extends Command implements PluginOwned {
     use PluginOwnedTrait;
 
+    private Main $plugin;
+
     public function __construct(Main $plugin) {
+        $this->plugin = $plugin;
         $this->owningPlugin = $plugin;
-        parent::__construct("takedebt", "Borrows money from the plugin", "/takedebt <money>");
+        parent::__construct("takedebt", "Borrows money from plugin", "/takedebt <money>");
     }
 
     public function execute(CommandSender $sender, string $label, array $args): bool {
@@ -25,10 +28,11 @@ class TakeDebtCommand extends Command implements PluginOwned {
             }
 
             $amount = floatval($args[0]);
-            $this->owningPlugin->getPlayerData()->addDebt($sender->getName(), $amount);
-            $sender->sendMessage("You have borrowed $" . $amount . ".");
+            $this->plugin->addDebt($sender->getName(), $amount);
+            $this->plugin->addMoney($sender->getName(), $amount);
+            $sender->sendMessage("Borrowed $" . $amount . " from the plugin.");
         } else {
-            $sender->sendMessage("This command can only be used by players.");
+            $sender->sendMessage("This command can only be used in-game.");
         }
         return true;
     }
