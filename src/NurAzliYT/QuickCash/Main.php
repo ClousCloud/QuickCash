@@ -17,6 +17,7 @@ use NurAzliYT\QuickCash\command\{
     TakeMoneyCommand,
     SeeMoneyCommand
 };
+use NurAzliYT\QuickCash\data\PlayerData;
 
 class Main extends PluginBase {
     private PlayerData $playerData;
