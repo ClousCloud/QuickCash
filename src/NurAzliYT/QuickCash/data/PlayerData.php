@@ -1,6 +1,6 @@
 <?php
 
-namespace NurAzliYT\QuickCash;
+namespace NurAzliYT\QuickCash\data;
 
 use pocketmine\utils\Config;
 
