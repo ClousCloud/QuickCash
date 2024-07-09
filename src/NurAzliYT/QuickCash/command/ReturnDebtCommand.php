@@ -18,6 +18,7 @@ class ReturnDebtCommand extends Command implements PluginOwned {
         $this->plugin = $plugin;
         $this->owningPlugin = $plugin;
         parent::__construct("returndebt", "Returns debt to the plugin", "/returndebt <money>");
+        $this->setPermission("quickcash.command.returndebt");
     }
 
     public function execute(CommandSender $sender, string $label, array $args): bool {
