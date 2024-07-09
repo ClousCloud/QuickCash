@@ -7,4 +7,5 @@ branches:
 projects:
   QuickCash:
     path: ""
+    icon: "icon.png"
 ...
