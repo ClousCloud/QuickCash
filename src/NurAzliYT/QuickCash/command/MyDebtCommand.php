@@ -15,7 +15,7 @@ class MyDebtCommand extends Command implements PluginOwned {
     private Main $plugin;
 
     public function __construct(Main $plugin) {
-        parent::__construct("mydebt", "Shows your debt", "/mydebt", ["mydebt");
+        parent::__construct("mydebt", "Shows your debt", "/mydebt", ["mydebt"]);
         $this->setPermission("quickcash.command.mydebt");
         $this->plugin = $plugin;
     }
