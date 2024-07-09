@@ -3,6 +3,7 @@
 namespace NurAzliYT\QuickCash\data;
 
 use pocketmine\utils\Config;
+use NurAzliYT\QuickCash\Main;
 
 class PlayerData {
     private Main $plugin;
