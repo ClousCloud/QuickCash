@@ -14,7 +14,7 @@ class SetMoneyCommand extends Command implements PluginOwned {
     private Main $plugin;
 
     public function __construct(Main $plugin) {
-        parent::__construct("setmoney", "Sets a player's money", "/setmoney <player> <money>");
+        parent::__construct("setmoney", "Sets a player's money", "/setmoney <player> <money>", ["setmoney"]);
         $this->setPermission("quickcash.command.setmoney");
         $this->plugin = $plugin;
     }
