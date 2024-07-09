@@ -4,11 +4,12 @@ namespace NurAzliYT\QuickCash\command;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\command\PluginCommand;
 use pocketmine\plugin\PluginOwned;
 use pocketmine\plugin\PluginOwnedTrait;
 use NurAzliYT\QuickCash\Main;
 
-class GiveMoneyCommand extends Command implements PluginOwned {
+class GiveMoneyCommand extends PluginCommand implements PluginOwned {
     use PluginOwnedTrait;
 
     private Main $plugin;
