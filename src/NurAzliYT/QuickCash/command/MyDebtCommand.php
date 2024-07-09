@@ -12,17 +12,20 @@ use NurAzliYT\QuickCash\Main;
 class MyDebtCommand extends Command implements PluginOwned {
     use PluginOwnedTrait;
 
+    private Main $plugin;
+
     public function __construct(Main $plugin) {
+        $this->plugin = $plugin;
         $this->owningPlugin = $plugin;
         parent::__construct("mydebt", "Shows your debt", "/mydebt");
     }
 
     public function execute(CommandSender $sender, string $label, array $args): bool {
         if($sender instanceof Player) {
-            $debt = $this->owningPlugin->getPlayerData()->getDebt($sender->getName());
-            $sender->sendMessage("Your debt: $" . $debt);
+            $debt = $this->plugin->getDebt($sender->getName());
+            $sender->sendMessage("Your current debt: $" . $debt);
         } else {
-            $sender->sendMessage("This command can only be used by players.");
+            $sender->sendMessage("This command can only be used in-game.");
         }
         return true;
     }
