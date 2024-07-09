@@ -19,7 +19,7 @@ class MyMoneyCommand extends Command implements PluginOwned {
 
     public function execute(CommandSender $sender, string $label, array $args): bool {
         if($sender instanceof Player) {
-            $money = $this->owningPlugin->getPlayerData()->getMoney($sender->getName());
+            $money = $this->owningPlugin->getMoney($sender->getName());
             $sender->sendMessage("Your money: $" . $money);
         } else {
             $sender->sendMessage("This command can only be used by players.");
