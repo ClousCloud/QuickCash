@@ -1,49 +1,81 @@
 name: QuickCash
-version: 1.0.0
 main: NurAzliYT\QuickCash\Main
+version: 1.0.0
 api: 5.0.0
 author: NurAzliYT
-description: QuickCash To Add Economy Features
+description: A simple economy plugin for PocketMine-MP
 commands:
   mymoney:
     description: Shows your money
     usage: /mymoney
+    permission: quickcash.command.mymoney
   mydebt:
     description: Shows your debt
     usage: /mydebt
+    permission: quickcash.command.mydebt
   takedebt:
-    description: Borrows money from the plugin
+    description: Borrows money from plugin
     usage: /takedebt <money>
+    permission: quickcash.command.takedebt
   returndebt:
-    description: Returns money to the plugin
+    description: Returns money to plugin
     usage: /returndebt <money>
+    permission: quickcash.command.returndebt
   topmoney:
     description: Shows server's top money
     usage: /topmoney <page>
+    permission: quickcash.command.topmoney
   moneysave:
     description: Saves data to your hardware
     usage: /moneysave
-    permission: quickcash.admin
+    permission: quickcash.command.moneysave
+    permission-message: Only the console can use this command
   moneyload:
     description: Loads data from your hardware
     usage: /moneyload
-    permission: quickcash.admin
+    permission: quickcash.command.moneyload
+    permission-message: Only the console can use this command
   setmoney:
-    description: Sets player's money
+    description: Sets a player's money
     usage: /setmoney <player> <money>
     permission: quickcash.admin
   givemoney:
-    description: Gives money to player
+    description: Gives money to a player
     usage: /givemoney <player> <money>
     permission: quickcash.admin
   takemoney:
-    description: Takes money from player
+    description: Takes money from a player
     usage: /takemoney <player> <money>
     permission: quickcash.admin
   seemoney:
-    description: Shows player's money
+    description: Shows a player's money
     usage: /seemoney <player>
+    permission: quickcash.command.seemoney
 permissions:
+  quickcash.command.mymoney:
+    description: Allows the player to check their money
+    default: true
+  quickcash.command.mydebt:
+    description: Allows the player to check their debt
+    default: true
+  quickcash.command.takedebt:
+    description: Allows the player to borrow money
+    default: true
+  quickcash.command.returndebt:
+    description: Allows the player to return money
+    default: true
+  quickcash.command.topmoney:
+    description: Allows the player to see the top money holders
+    default: true
+  quickcash.command.moneysave:
+    description: Allows the console to save data
+    default: op
+  quickcash.command.moneyload:
+    description: Allows the console to load data
+    default: op
+  quickcash.command.seemoney:
+    description: Allows the player to see another player's money
+    default: true
   quickcash.admin:
-    description: Allows administrative commands for QuickCash
+    description: Allows the player to manage money
     default: op
