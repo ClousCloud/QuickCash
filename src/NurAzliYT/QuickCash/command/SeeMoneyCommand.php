@@ -14,21 +14,28 @@ class SeeMoneyCommand extends Command implements PluginOwned {
     private Main $plugin;
 
     public function __construct(Main $plugin) {
-        $this->plugin = $plugin;
-        $this->owningPlugin = $plugin;
-        parent::__construct("seemoney", "Shows player's money", "/seemoney <player>");
+        parent::__construct("seemoney", "Shows a player's money", "/seemoney <player>");
         $this->setPermission("quickcash.command.seemoney");
+        $this->plugin = $plugin;
     }
 
-    public function execute(CommandSender $sender, string $label, array $args): bool {
-        if(count($args) !== 1) {
+    public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
+        if (!$this->testPermission($sender)) {
+            return false;
+        }
+
+        if (count($args) !== 1) {
             $sender->sendMessage("Usage: /seemoney <player>");
             return false;
         }
 
         $player = $args[0];
-        $money = $this->plugin->getMoney($player);
-        $sender->sendMessage($player . " has $" . $money . ".");
+        $money = $this->plugin->getPlayerData()->getMoney($player);
+        $sender->sendMessage("$player has $$money");
         return true;
+    }
+
+    public function getOwningPlugin(): Main {
+        return $this->plugin;
     }
 }
