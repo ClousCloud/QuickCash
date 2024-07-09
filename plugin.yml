@@ -7,49 +7,38 @@ description: A simple economy plugin for PocketMine-MP
 commands:
   mymoney:
     description: Shows your money
-    usage: /mymoney
     permission: quickcash.command.mymoney
   mydebt:
     description: Shows your debt
-    usage: /mydebt
     permission: quickcash.command.mydebt
   takedebt:
     description: Borrows money from plugin
-    usage: /takedebt <money>
     permission: quickcash.command.takedebt
   returndebt:
     description: Returns money to plugin
-    usage: /returndebt <money>
     permission: quickcash.command.returndebt
   topmoney:
     description: Shows server's top money
-    usage: /topmoney <page>
     permission: quickcash.command.topmoney
   moneysave:
     description: Saves data to your hardware
-    usage: /moneysave
     permission: quickcash.command.moneysave
     permission-message: Only the console can use this command
   moneyload:
     description: Loads data from your hardware
-    usage: /moneyload
     permission: quickcash.command.moneyload
     permission-message: Only the console can use this command
   setmoney:
     description: Sets a player's money
-    usage: /setmoney <player> <money>
     permission: quickcash.admin
   givemoney:
     description: Gives money to a player
-    usage: /givemoney <player> <money>
     permission: quickcash.admin
   takemoney:
     description: Takes money from a player
-    usage: /takemoney <player> <money>
     permission: quickcash.admin
   seemoney:
     description: Shows a player's money
-    usage: /seemoney <player>
     permission: quickcash.command.seemoney
 permissions:
   quickcash.command.mymoney:
