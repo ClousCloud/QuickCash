@@ -17,6 +17,7 @@ class SeeMoneyCommand extends Command implements PluginOwned {
         $this->plugin = $plugin;
         $this->owningPlugin = $plugin;
         parent::__construct("seemoney", "Shows player's money", "/seemoney <player>");
+        $this->setPermission("quickcash.command.seemoney");
     }
 
     public function execute(CommandSender $sender, string $label, array $args): bool {
