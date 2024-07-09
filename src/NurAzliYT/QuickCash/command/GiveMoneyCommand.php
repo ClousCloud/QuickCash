@@ -14,7 +14,7 @@ class GiveMoneyCommand extends Command implements PluginOwned {
     private Main $plugin;
 
     public function __construct(Main $plugin) {
-        parent::__construct("givemoney", "Gives money to a player", "/givemoney <player> <money>");
+        parent::__construct("givemoney", "Gives money to a player", "/givemoney <player> <money>", ["givemoney"]);
         $this->setPermission("quickcash.command.givemoney");
         $this->plugin = $plugin;
     }
