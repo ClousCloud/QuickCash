@@ -1,69 +1,77 @@
 <?php
 
-namespace NurAzliYT\QuickCash\data;
+namespace NurAzliYT\QuickCash;
 
 use pocketmine\utils\Config;
 
 class PlayerData {
-
+    private Main $plugin;
+    private array $data;
     private Config $config;
 
-    public function __construct(string $dataFolder) {
-        @mkdir($dataFolder);
-        $this->config = new Config($dataFolder . "PlayerData.yml", Config::YAML, [
-            'players' => []
-        ]);
+    public function __construct(Main $plugin) {
+        $this->plugin = $plugin;
+        $this->config = new Config($this->plugin->getDataFolder() . "players.yml", Config::YAML);
+        $this->data = $this->config->getAll();
     }
 
-    public function getMoney(string $playerName): int {
-        $players = $this->config->get("players", []);
-        return $players[$playerName]['money'] ?? 0;
+    public function getMoney(string $player): int {
+        return $this->data[$player]['money'] ?? 0;
     }
 
-    public function setMoney(string $playerName, int $amount): void {
-        $players = $this->config->get("players", []);
-        $players[$playerName]['money'] = $amount;
-        $this->config->set("players", $players);
-        $this->config->save();
+    public function getDebt(string $player): int {
+        return $this->data[$player]['debt'] ?? 0;
     }
 
-    public function addMoney(string $playerName, int $amount): void {
-        $money = $this->getMoney($playerName);
-        $this->setMoney($playerName, $money + $amount);
+    public function addMoney(string $player, int $amount): void {
+        if (!isset($this->data[$player])) {
+            $this->data[$player] = ['money' => 0, 'debt' => 0];
+        }
+        $this->data[$player]['money'] += $amount;
+        $this->save();
     }
 
-    public function takeMoney(string $playerName, int $amount): void {
-        $money = $this->getMoney($playerName);
-        $this->setMoney($playerName, max(0, $money - $amount));
+    public function takeMoney(string $player, int $amount): void {
+        if (isset($this->data[$player])) {
+            $this->data[$player]['money'] = max(0, $this->data[$player]['money'] - $amount);
+            $this->save();
+        }
     }
 
-    public function getDebt(string $playerName): int {
-        $players = $this->config->get("players", []);
-        return $players[$playerName]['debt'] ?? 0;
+    public function setMoney(string $player, int $amount): void {
+        if (!isset($this->data[$player])) {
+            $this->data[$player] = ['money' => 0, 'debt' => 0];
+        }
+        $this->data[$player]['money'] = $amount;
+        $this->save();
     }
 
-    public function setDebt(string $playerName, int $amount): void {
-        $players = $this->config->get("players", []);
-        $players[$playerName]['debt'] = $amount;
-        $this->config->set("players", $players);
-        $this->config->save();
+    public function addDebt(string $player, int $amount): void {
+        if (!isset($this->data[$player])) {
+            $this->data[$player] = ['money' => 0, 'debt' => 0];
+        }
+        $this->data[$player]['debt'] += $amount;
+        $this->save();
     }
 
-    public function addDebt(string $playerName, int $amount): void {
-        $debt = $this->getDebt($playerName);
-        $this->setDebt($playerName, $debt + $amount);
+    public function takeDebt(string $player, int $amount): void {
+        if (isset($this->data[$player])) {
+            $this->data[$player]['debt'] = max(0, $this->data[$player]['debt'] - $amount);
+            $this->save();
+        }
     }
 
-    public function takeDebt(string $playerName, int $amount): void {
-        $debt = $this->getDebt($playerName);
-        $this->setDebt($playerName, max(0, $debt - $amount));
+    public function getTopPlayers(): array {
+        uasort($this->data, fn($a, $b) => $b['money'] <=> $a['money']);
+        return array_slice($this->data, 0, 10, true);
     }
 
     public function save(): void {
+        $this->config->setAll($this->data);
         $this->config->save();
     }
 
     public function load(): void {
-        $this->config->reload();
+        $this->data = $this->config->getAll();
     }
 }
