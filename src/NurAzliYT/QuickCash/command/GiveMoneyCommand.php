@@ -7,14 +7,13 @@ use pocketmine\command\CommandSender;
 use pocketmine\plugin\PluginOwned;
 use pocketmine\plugin\PluginOwnedTrait;
 use NurAzliYT\QuickCash\Main;
-use NurAzliYT\QuickCash\PlayerData;
 
 class GiveMoneyCommand extends Command implements PluginOwned {
     use PluginOwnedTrait;
 
     public function __construct(Main $plugin) {
         $this->owningPlugin = $plugin;
-        parent::__construct("givemoney", "Gives money to player", "/givemoney <player> <money>");
+        parent::__construct("givemoney", "Gives money to a player", "/givemoney <player> <money>");
         $this->setPermission("quickcash.admin");
     }
 
@@ -27,7 +26,7 @@ class GiveMoneyCommand extends Command implements PluginOwned {
 
             $player = $args[0];
             $amount = floatval($args[1]);
-            $this->owningPlugin->getPlayerData()->addMoney($player, $amount);
+            $this->owningPlugin->addMoney($player, $amount);
             $sender->sendMessage("Gave $" . $amount . " to " . $player . ".");
         } else {
             $sender->sendMessage("You don't have permission to use this command.");
