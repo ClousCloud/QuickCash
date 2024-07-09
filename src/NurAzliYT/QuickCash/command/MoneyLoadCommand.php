@@ -14,19 +14,22 @@ class MoneyLoadCommand extends Command implements PluginOwned {
     private Main $plugin;
 
     public function __construct(Main $plugin) {
-        $this->plugin = $plugin;
-        $this->owningPlugin = $plugin;
         parent::__construct("moneyload", "Loads data from your hardware", "/moneyload");
         $this->setPermission("quickcash.command.moneyload");
+        $this->plugin = $plugin;
     }
 
-    public function execute(CommandSender $sender, string $label, array $args): bool {
-        if($sender->hasPermission("quickcash.console")) {
-            $this->plugin->getPlayerData()->reload();
-            $sender->sendMessage("Player data loaded from hardware.");
-        } else {
-            $sender->sendMessage("You don't have permission to use this command.");
+    public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
+        if (!$this->testPermission($sender)) {
+            return false;
         }
+
+        $this->plugin->getPlayerData()->load();
+        $sender->sendMessage("Data has been loaded.");
         return true;
+    }
+
+    public function getOwningPlugin(): Main {
+        return $this->plugin;
     }
 }
