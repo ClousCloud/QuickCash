@@ -28,7 +28,7 @@ commands:
   moneysave:
     description: Saves data to your hardware
     usage: /moneysave
-    permission: quickcash.console
+    permission: quickcash.command.moneysave
     permission-message: Only the console can use this command
   moneyload:
     description: Loads data from your hardware
@@ -67,8 +67,11 @@ permissions:
   quickcash.command.topmoney:
     description: Allows the player to see the top money holders
     default: true
-  quickcash.console:
+  quickcash.command.moneysave:
     description: Allows the console to save data
+    default: op
+  quickcash.command.moneyload:
+    description: Allows the console to load data
     default: op
   quickcash.command.seemoney:
     description: Allows the player to see another player's money
