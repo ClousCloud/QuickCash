@@ -11,7 +11,10 @@ use NurAzliYT\QuickCash\Main;
 class SeeMoneyCommand extends Command implements PluginOwned {
     use PluginOwnedTrait;
 
+    private Main $plugin;
+
     public function __construct(Main $plugin) {
+        $this->plugin = $plugin;
         $this->owningPlugin = $plugin;
         parent::__construct("seemoney", "Shows player's money", "/seemoney <player>");
     }
@@ -23,8 +26,8 @@ class SeeMoneyCommand extends Command implements PluginOwned {
         }
 
         $player = $args[0];
-        $money = $this->owningPlugin->getPlayerData()->getMoney($player);
-        $sender->sendMessage($player . "'s money: $" . $money);
+        $money = $this->plugin->getMoney($player);
+        $sender->sendMessage($player . " has $" . $money . ".");
         return true;
     }
 }
