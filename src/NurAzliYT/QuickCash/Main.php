@@ -5,40 +5,87 @@ namespace NurAzliYT\QuickCash;
 use pocketmine\plugin\PluginBase;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use NurAzliYT\QuickCash\command\MyMoneyCommand;
-use NurAzliYT\QuickCash\command\MyDebtCommand;
-use NurAzliYT\QuickCash\command\TakeDebtCommand;
-use NurAzliYT\QuickCash\command\ReturnDebtCommand;
-use NurAzliYT\QuickCash\command\TopMoneyCommand;
-use NurAzliYT\QuickCash\command\MoneySaveCommand;
-use NurAzliYT\QuickCash\command\MoneyLoadCommand;
-use NurAzliYT\QuickCash\command\SetMoneyCommand;
-use NurAzliYT\QuickCash\command\GiveMoneyCommand;
-use NurAzliYT\QuickCash\command\TakeMoneyCommand;
-use NurAzliYT\QuickCash\command\SeeMoneyCommand;
+use pocketmine\utils\Config;
+use pocketmine\player\Player;
+use pocketmine\command\CommandExecutor;
 
 class Main extends PluginBase {
-    private $playerData;
+
+    private Config $playerData;
 
     public function onEnable(): void {
-        $this->playerData = new PlayerData($this);
+        $this->getLogger()->info("QuickCash plugin enabled.");
+        
+        $this->playerData = new Config($this->getDataFolder() . "playerData.json", Config::JSON, []);
 
-        $this->getServer()->getCommandMap()->registerAll("quickcash", [
-            new MyMoneyCommand($this),
-            new MyDebtCommand($this),
-            new TakeDebtCommand($this),
-            new ReturnDebtCommand($this),
-            new TopMoneyCommand($this),
-            new MoneySaveCommand($this),
-            new MoneyLoadCommand($this),
-            new SetMoneyCommand($this),
-            new GiveMoneyCommand($this),
-            new TakeMoneyCommand($this),
-            new SeeMoneyCommand($this)
-        ]);
+        $this->registerCommand("mymoney", new MyMoneyCommand($this));
+        $this->registerCommand("mydebt", new MyDebtCommand($this));
+        $this->registerCommand("takedebt", new TakeDebtCommand($this));
+        $this->registerCommand("returndebt", new ReturnDebtCommand($this));
+        $this->registerCommand("topmoney", new TopMoneyCommand($this));
+        $this->registerCommand("moneysave", new MoneySaveCommand($this));
+        $this->registerCommand("moneyload", new MoneyLoadCommand($this));
+        $this->registerCommand("setmoney", new SetMoneyCommand($this));
+        $this->registerCommand("givemoney", new GiveMoneyCommand($this));
+        $this->registerCommand("takemoney", new TakeMoneyCommand($this));
+        $this->registerCommand("seemoney", new SeeMoneyCommand($this));
     }
 
-    public function getPlayerData(): PlayerData {
+    public function onDisable(): void {
+        $this->getLogger()->info("QuickCash plugin disabled.");
+        $this->playerData->save();
+    }
+
+    private function registerCommand(string $name, CommandExecutor $executor): void {
+        $command = $this->getServer()->getCommandMap()->getCommand($name);
+        if ($command !== null) {
+            $command->setExecutor($executor);
+        }
+    }
+
+    public function getPlayerData(): Config {
         return $this->playerData;
+    }
+
+    public function getMoney(string $player): float {
+        return $this->playerData->getNested($player . ".money", 0.0);
+    }
+
+    public function setMoney(string $player, float $amount): void {
+        $this->playerData->setNested($player . ".money", $amount);
+        $this->playerData->save();
+    }
+
+    public function addMoney(string $player, float $amount): void {
+        $money = $this->getMoney($player);
+        $this->setMoney($player, $money + $amount);
+    }
+
+    public function reduceMoney(string $player, float $amount): void {
+        $money = $this->getMoney($player);
+        $this->setMoney($player, max($money - $amount, 0));
+    }
+
+    public function getDebt(string $player): float {
+        return $this->playerData->getNested($player . ".debt", 0.0);
+    }
+
+    public function addDebt(string $player, float $amount): void {
+        $debt = $this->getDebt($player);
+        $this->playerData->setNested($player . ".debt", $debt + $amount);
+        $this->playerData->save();
+    }
+
+    public function reduceDebt(string $player, float $amount): void {
+        $debt = $this->getDebt($player);
+        $this->playerData->setNested($player . ".debt", max($debt - $amount, 0));
+        $this->playerData->save();
+    }
+
+    public function getTopMoney(int $page = 1, int $pageSize = 10): array {
+        $allData = $this->playerData->getAll();
+        uasort($allData, fn($a, $b) => $b["money"] <=> $a["money"]);
+
+        return array_slice($allData, ($page - 1) * $pageSize, $pageSize, true);
     }
 }
