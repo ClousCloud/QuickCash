@@ -18,6 +18,7 @@ class TakeDebtCommand extends Command implements PluginOwned {
         $this->plugin = $plugin;
         $this->owningPlugin = $plugin;
         parent::__construct("takedebt", "Borrows money from plugin", "/takedebt <money>");
+        $this->setPermission("quickcash.command.takedebt");
     }
 
     public function execute(CommandSender $sender, string $label, array $args): bool {
