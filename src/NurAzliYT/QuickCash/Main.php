@@ -7,6 +7,7 @@ namespace NurAzliYT\QuickCash;
 use pocketmine\plugin\PluginBase;
 use pocketmine\command\Command;
 use pocketmine\command\PluginCommand;
+use NurAzliYT\QuickCash\data\PlayerData;
 use NurAzliYT\QuickCash\command\MyMoneyCommand;
 use NurAzliYT\QuickCash\command\MyDebtCommand;
 use NurAzliYT\QuickCash\command\TakeDebtCommand;
