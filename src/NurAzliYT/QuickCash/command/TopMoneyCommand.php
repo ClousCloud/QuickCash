@@ -11,21 +11,21 @@ use NurAzliYT\QuickCash\Main;
 class TopMoneyCommand extends Command implements PluginOwned {
     use PluginOwnedTrait;
 
+    private Main $plugin;
+
     public function __construct(Main $plugin) {
+        $this->plugin = $plugin;
         $this->owningPlugin = $plugin;
         parent::__construct("topmoney", "Shows server's top money", "/topmoney <page>");
     }
 
     public function execute(CommandSender $sender, string $label, array $args): bool {
-        $page = 1;
-        if(count($args) > 0 && is_numeric($args[0])) {
-            $page = intval($args[0]);
-        }
+        $page = isset($args[0]) && is_numeric($args[0]) ? intval($args[0]) : 1;
+        $topMoney = $this->plugin->getTopMoney($page);
 
-        $topMoney = $this->owningPlugin->getPlayerData()->getTopMoney($page);
-        $sender->sendMessage("Top Money List (Page " . $page . "):");
-        foreach($topMoney as $player => $money) {
-            $sender->sendMessage($player . ": $" . $money);
+        $sender->sendMessage("Top money players (Page $page):");
+        foreach ($topMoney as $player => $data) {
+            $sender->sendMessage($player . ": $" . $data['money']);
         }
         return true;
     }
