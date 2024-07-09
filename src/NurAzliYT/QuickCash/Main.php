@@ -7,18 +7,19 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\Config;
 use pocketmine\player\Player;
-use pocketmine\command\CommandExecutor;
-use NurAzliYT\QuickCash\command\MyMoneyCommand;
-use NurAzliYT\QuickCash\command\MyDebtCommand;
-use NurAzliYT\QuickCash\command\TakeDebtCommand;
-use NurAzliYT\QuickCash\command\ReturnDebtCommand;
-use NurAzliYT\QuickCash\command\TopMoneyCommand;
-use NurAzliYT\QuickCash\command\MoneySaveCommand;
-use NurAzliYT\QuickCash\command\MoneyLoadCommand;
-use NurAzliYT\QuickCash\command\SetMoneyCommand;
-use NurAzliYT\QuickCash\command\GiveMoneyCommand;
-use NurAzliYT\QuickCash\command\TakeMoneyCommand;
-use NurAzliYT\QuickCash\command\SeeMoneyCommand;
+use NurAzliYT\QuickCash\command\{
+    MyMoneyCommand,
+    MyDebtCommand,
+    TakeDebtCommand,
+    ReturnDebtCommand,
+    TopMoneyCommand,
+    MoneySaveCommand,
+    MoneyLoadCommand,
+    SetMoneyCommand,
+    GiveMoneyCommand,
+    TakeMoneyCommand,
+    SeeMoneyCommand
+};
 
 class Main extends PluginBase {
 
@@ -28,28 +29,25 @@ class Main extends PluginBase {
         
         $this->playerData = new Config($this->getDataFolder() . "playerData.json", Config::JSON, []);
 
-        $this->registerCommand("mymoney", new MyMoneyCommand($this));
-        $this->registerCommand("mydebt", new MyDebtCommand($this));
-        $this->registerCommand("takedebt", new TakeDebtCommand($this));
-        $this->registerCommand("returndebt", new ReturnDebtCommand($this));
-        $this->registerCommand("topmoney", new TopMoneyCommand($this));
-        $this->registerCommand("moneysave", new MoneySaveCommand($this));
-        $this->registerCommand("moneyload", new MoneyLoadCommand($this));
-        $this->registerCommand("setmoney", new SetMoneyCommand($this));
-        $this->registerCommand("givemoney", new GiveMoneyCommand($this));
-        $this->registerCommand("takemoney", new TakeMoneyCommand($this));
-        $this->registerCommand("seemoney", new SeeMoneyCommand($this));
+        $this->registerCommand(new MyMoneyCommand($this));
+        $this->registerCommand(new MyDebtCommand($this));
+        $this->registerCommand(new TakeDebtCommand($this));
+        $this->registerCommand(new ReturnDebtCommand($this));
+        $this->registerCommand(new TopMoneyCommand($this));
+        $this->registerCommand(new MoneySaveCommand($this));
+        $this->registerCommand(new MoneyLoadCommand($this));
+        $this->registerCommand(new SetMoneyCommand($this));
+        $this->registerCommand(new GiveMoneyCommand($this));
+        $this->registerCommand(new TakeMoneyCommand($this));
+        $this->registerCommand(new SeeMoneyCommand($this));
     }
 
     public function onDisable(): void {
         $this->playerData->save();
     }
 
-    private function registerCommand(string $name, CommandExecutor $executor): void {
-        $command = $this->getServer()->getCommandMap()->getCommand($name);
-        if ($command !== null) {
-            $command->setExecutor($executor);
-        }
+    private function registerCommand(Command $command): void {
+        $this->getServer()->getCommandMap()->register("quickcash", $command);
     }
 
     public function getPlayerData(): Config {
