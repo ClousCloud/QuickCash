@@ -30,7 +30,7 @@ class MyMoneyCommand extends Command implements PluginOwned {
             return false;
         }
 
-        $money = $this->plugin->getPlayerData()->get($sender->getName(), 0);
+        $money = $this->plugin->getPlayerData()->getMoney($sender->getName());
         $sender->sendMessage("You have $" . $money);
         return true;
     }
