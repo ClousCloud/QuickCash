@@ -12,9 +12,12 @@ use NurAzliYT\QuickCash\Main;
 class ReturnDebtCommand extends Command implements PluginOwned {
     use PluginOwnedTrait;
 
+    private Main $plugin;
+
     public function __construct(Main $plugin) {
+        $this->plugin = $plugin;
         $this->owningPlugin = $plugin;
-        parent::__construct("returndebt", "Returns money to the plugin", "/returndebt <money>");
+        parent::__construct("returndebt", "Returns debt to the plugin", "/returndebt <money>");
     }
 
     public function execute(CommandSender $sender, string $label, array $args): bool {
@@ -25,10 +28,17 @@ class ReturnDebtCommand extends Command implements PluginOwned {
             }
 
             $amount = floatval($args[0]);
-            $this->owningPlugin->getPlayerData()->reduceDebt($sender->getName(), $amount);
-            $sender->sendMessage("You have returned $" . $amount . ".");
+            $debt = $this->plugin->getDebt($sender->getName());
+            if ($debt < $amount) {
+                $sender->sendMessage("You don't have that much debt.");
+                return false;
+            }
+
+            $this->plugin->reduceDebt($sender->getName(), $amount);
+            $this->plugin->reduceMoney($sender->getName(), $amount);
+            $sender->sendMessage("Returned $" . $amount . " of your debt.");
         } else {
-            $sender->sendMessage("This command can only be used by players.");
+            $sender->sendMessage("This command can only be used in-game.");
         }
         return true;
     }
