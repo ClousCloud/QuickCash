@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace NurAzliYT\QuickCash;
 
+use pocketmine\command\CommandMap;
+use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use NurAzliYT\QuickCash\data\PlayerData;
 use NurAzliYT\QuickCash\command\{
