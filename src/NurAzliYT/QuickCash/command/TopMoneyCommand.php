@@ -14,7 +14,7 @@ class TopMoneyCommand extends Command implements PluginOwned {
     private Main $plugin;
 
     public function __construct(Main $plugin) {
-        parent::__construct("topmoney", "Shows server's top money", "/topmoney", ["topmoney"]);
+        parent::__construct("topmoney", "Shows server's top money", "/topmoney");
         $this->setPermission("quickcash.command.topmoney");
         $this->plugin = $plugin;
     }

@@ -14,7 +14,7 @@ class MoneySaveCommand extends Command implements PluginOwned {
     private Main $plugin;
 
     public function __construct(Main $plugin) {
-        parent::__construct("moneysave", "Saves data to your hardware", "/moneysave", ["moneysave"]);
+        parent::__construct("moneysave", "Saves data to your hardware", "/moneysave");
         $this->setPermission("quickcash.command.moneysave");
         $this->plugin = $plugin;
     }

@@ -14,7 +14,7 @@ class MoneyLoadCommand extends Command implements PluginOwned {
     private Main $plugin;
 
     public function __construct(Main $plugin) {
-        parent::__construct("moneyload", "Loads data from your hardware", "/moneyload", ["moneyload"]);
+        parent::__construct("moneyload", "Loads data from your hardware", "/moneyload");
         $this->setPermission("quickcash.command.moneyload");
         $this->plugin = $plugin;
     }

@@ -1,24 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
 namespace NurAzliYT\QuickCash\command;
 
+use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\command\PluginCommand;
+use pocketmine\player\Player;
 use pocketmine\plugin\PluginOwned;
 use pocketmine\plugin\PluginOwnedTrait;
-use pocketmine\player\Player;
 use NurAzliYT\QuickCash\Main;
 
-class MyMoneyCommand extends PluginCommand implements PluginOwned {
+class MyMoneyCommand extends Command implements PluginOwned {
     use PluginOwnedTrait;
 
+    private Main $plugin;
+
     public function __construct(Main $plugin) {
-        parent::__construct("mymoney", $plugin);
-        $this->setDescription("Shows your money");
+        parent::__construct("mymoney", "Shows your money", "/mymoney");
         $this->setPermission("quickcash.command.mymoney");
-        $this->owningPlugin = $plugin;
+        $this->plugin = $plugin;
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
@@ -26,13 +25,17 @@ class MyMoneyCommand extends PluginCommand implements PluginOwned {
             return false;
         }
 
-        if ($sender instanceof Player) {
-            $money = $this->owningPlugin->getPlayerData()->getMoney($sender);
-            $sender->sendMessage("You have $" . $money);
-            return true;
-        } else {
+        if (!$sender instanceof Player) {
             $sender->sendMessage("This command can only be used in-game.");
             return false;
         }
+
+        $money = $this->plugin->getPlayerData()->getMoney($sender->getName());
+        $sender->sendMessage("You have $" . $money);
+        return true;
+    }
+
+    public function getOwningPlugin(): Main {
+        return $this->plugin;
     }
 }
